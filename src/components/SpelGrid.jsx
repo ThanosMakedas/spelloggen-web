@@ -1,7 +1,7 @@
 import SpelCard from './SpelCard.jsx'
 import './SpelGrid.css'
 
-function SpelGrid({ spel }) {
+function SpelGrid({ spel, onEdit }) {
   if (spel.length === 0) {
     return <p className="grid-empty">Inga spel i loggen än. Lägg till ditt första!</p>
   }
@@ -9,7 +9,7 @@ function SpelGrid({ spel }) {
   return (
     <div className="grid">
       {spel.map((s) => (
-        <SpelCard key={s.id} spel={s} />
+        <SpelCard key={s.id} spel={s} onEdit={onEdit} />
       ))}
     </div>
   )

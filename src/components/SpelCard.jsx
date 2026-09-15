@@ -11,7 +11,7 @@ function formateraDatum(datum) {
   })
 }
 
-function SpelCard({ spel }) {
+function SpelCard({ spel, onEdit }) {
   const bild = bildUrl(spel)
 
   return (
@@ -56,6 +56,12 @@ function SpelCard({ spel }) {
         </dl>
 
         {spel.anteckningar && <p className="card-notes">{spel.anteckningar}</p>}
+
+        <div className="card-actions">
+          <button type="button" className="btn" onClick={() => onEdit(spel)}>
+            Redigera
+          </button>
+        </div>
       </div>
     </article>
   )

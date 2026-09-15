@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getAllaSpel, skapaSpel } from './api.js'
+import { getAllaSpel, skapaSpel, uppdateraSpel } from './api.js'
 import ErrorBanner from './components/ErrorBanner.jsx'
 import Header from './components/Header.jsx'
 import Loading from './components/Loading.jsx'
@@ -20,7 +20,8 @@ function App() {
   // { meddelande, kanForsokaIgen } or null.
   const [fel, setFel] = useState(null)
 
-  // The open form: { spel: null } when adding a new game, null when closed.
+  // The open form: { spel: null } when adding a new game,
+  // { spel } when editing one, null when the form is closed.
   const [form, setForm] = useState(null)
 
   // Every setState in here runs after the API has answered, never straight away,
@@ -46,11 +47,21 @@ function App() {
     hamtaSpel()
   }
 
-  // Called by SpelForm. If the API call fails, the error goes back to the form,
-  // which stays open and shows it.
+  // Called by SpelForm, both for a new game and for an edited one. If the API call
+  // fails, the error goes back to the form, which stays open and shows it.
   async function sparaSpel(data) {
-    const nytt = await skapaSpel(data)
-    setSpel((lista) => sortera([...(lista ?? []), nytt]))
+    if (form.spel) {
+      const id = form.spel.id
+      await uppdateraSpel(id, data)
+
+      // PUT answers 204 without a body, so merge the changes into the game we have.
+      // The cover is not part of the form, so bildUrl stays as it was.
+      setSpel((lista) => sortera(lista.map((s) => (s.id === id ? { ...s, ...data } : s))))
+    } else {
+      const nytt = await skapaSpel(data)
+      setSpel((lista) => sortera([...(lista ?? []), nytt]))
+    }
+
     setForm(null)
   }
 
@@ -67,7 +78,7 @@ function App() {
       )}
 
       {laddar && <Loading />}
-      {spel && <SpelGrid spel={spel} />}
+      {spel && <SpelGrid spel={spel} onEdit={(s) => setForm({ spel: s })} />}
 
       {form && <SpelForm spel={form.spel} onSave={sparaSpel} onCancel={() => setForm(null)} />}
     </div>
