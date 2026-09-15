@@ -17,7 +17,18 @@ function SpelCard({ spel }) {
   return (
     <article className="card">
       <div className="card-cover">
-        {bild && <img src={bild} alt={`Omslag för ${spel.titel}`} loading="lazy" />}
+        {/* BildUrl is nullable, so a game without a cover gets a placeholder instead. */}
+        {bild ? (
+          <img src={bild} alt={`Omslag för ${spel.titel}`} loading="lazy" />
+        ) : (
+          <div className="card-placeholder">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M20 22h24a10 10 0 0 1 9.8 8l2 10a6 6 0 0 1-10.3 5.2L41 41H23l-4.5 4.2A6 6 0 0 1 8.2 40l2-10A10 10 0 0 1 20 22z" />
+              <path d="M22 29v8M18 33h8" />
+            </svg>
+            <span>Ingen bild</span>
+          </div>
+        )}
         <StatusBadge status={spel.status} />
       </div>
 

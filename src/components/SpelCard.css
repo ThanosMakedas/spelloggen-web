@@ -33,6 +33,37 @@
   object-fit: cover;
 }
 
+/* Shown when a game has no cover image: a faint neon grid with a gamepad. */
+.card-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 100%;
+  background:
+    linear-gradient(rgba(56, 189, 248, 0.06) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px) 0 0 / 22px 22px,
+    radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.12), transparent 60%),
+    #07080d;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-placeholder svg {
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: var(--neon-blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+}
+
 /* The status badge sits on top of the cover. */
 .card-cover .badge {
   position: absolute;
