@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+}
+
+.header-title span {
+  color: var(--neon-blue);
+}
+
+.header-subtitle {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+}
