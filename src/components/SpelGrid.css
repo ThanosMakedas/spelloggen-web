@@ -9,3 +9,11 @@
   text-align: center;
   color: var(--text-muted);
 }
+
+/* Phones: always one card per row, whatever the exact screen width is. */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
