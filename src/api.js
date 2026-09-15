@@ -2,14 +2,23 @@
 // and the error handling live in one place.
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5080'
+const TIMEOUT_MS = 10000
 
 async function request(path, options = {}) {
   let response
 
   try {
-    response = await fetch(`${API_URL}${path}`, options)
-  } catch {
-    // fetch only throws when no response came back at all,
+    response = await fetch(`${API_URL}${path}`, {
+      ...options,
+      // Without a limit, an API that never answers would leave the page loading forever.
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    })
+  } catch (err) {
+    if (err.name === 'TimeoutError') {
+      throw new Error('API:et svarar inte. Försök igen om en stund.')
+    }
+
+    // Otherwise no response came back at all,
     // which is what happens when the API is not running.
     throw new Error('Kunde inte nå API:et. Kontrollera att det är startat.')
   }
