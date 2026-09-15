@@ -1,4 +1,5 @@
 import { bildUrl } from '../api.js'
+import StatusBadge from './StatusBadge.jsx'
 import './SpelCard.css'
 
 // "2026-09-14T00:00:00" becomes "14 sep. 2026".
@@ -17,6 +18,7 @@ function SpelCard({ spel }) {
     <article className="card">
       <div className="card-cover">
         {bild && <img src={bild} alt={`Omslag för ${spel.titel}`} loading="lazy" />}
+        <StatusBadge status={spel.status} />
       </div>
 
       <div className="card-body">
