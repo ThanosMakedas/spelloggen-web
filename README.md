@@ -9,6 +9,14 @@ The **backend** is a separate repo: https://github.com/ThanosMakedas/spelloggen-
 
 Both have to run at the same time. Everything you need is below.
 
+## What it looks like
+
+![Spelloggen on a desktop screen](docs/desktop.png)
+
+On a phone the cards go to one per row:
+
+<img src="docs/phone.png" alt="Spelloggen on a phone screen" width="320">
+
 ## Before you start
 
 | Needed | Version | Check with |
