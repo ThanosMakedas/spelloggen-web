@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getAllaSpel, skapaSpel, uppdateraSpel } from './api.js'
+import { getAllaSpel, laddaUppBild, skapaSpel, uppdateraSpel } from './api.js'
 import ErrorBanner from './components/ErrorBanner.jsx'
 import Header from './components/Header.jsx'
 import Loading from './components/Loading.jsx'
@@ -65,6 +65,23 @@ function App() {
     setForm(null)
   }
 
+  // The card shows "Laddar upp..." while this runs. An error is shown in the banner
+  // instead of being thrown back, so the card can go back to its normal state.
+  async function laddaUpp(id, fil) {
+    try {
+      const uppdaterat = await laddaUppBild(id, fil)
+      setSpel((lista) => lista.map((s) => (s.id === id ? uppdaterat : s)))
+      setFel(null)
+    } catch (err) {
+      setFel({ meddelande: err.message, kanForsokaIgen: false })
+    }
+  }
+
+  // Used when the file is rejected in the browser, before it is sent.
+  function visaFel(meddelande) {
+    setFel({ meddelande, kanForsokaIgen: false })
+  }
+
   return (
     <div className="container">
       <Header antal={spel?.length ?? null} onAdd={() => setForm({ spel: null })} />
@@ -78,7 +95,15 @@ function App() {
       )}
 
       {laddar && <Loading />}
-      {spel && <SpelGrid spel={spel} onEdit={(s) => setForm({ spel: s })} />}
+
+      {spel && (
+        <SpelGrid
+          spel={spel}
+          onEdit={(s) => setForm({ spel: s })}
+          onUpload={laddaUpp}
+          onError={visaFel}
+        />
+      )}
 
       {form && <SpelForm spel={form.spel} onSave={sparaSpel} onCancel={() => setForm(null)} />}
     </div>

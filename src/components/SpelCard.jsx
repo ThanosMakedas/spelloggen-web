@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { bildUrl } from '../api.js'
+import ImageUpload from './ImageUpload.jsx'
 import StatusBadge from './StatusBadge.jsx'
 import './SpelCard.css'
 
@@ -11,8 +13,16 @@ function formateraDatum(datum) {
   })
 }
 
-function SpelCard({ spel, onEdit }) {
+function SpelCard({ spel, onEdit, onUpload, onError }) {
   const bild = bildUrl(spel)
+  const [laddarUpp, setLaddarUpp] = useState(false)
+
+  // onUpload shows its own error message, so there is nothing to catch here.
+  async function laddaUpp(fil) {
+    setLaddarUpp(true)
+    await onUpload(spel.id, fil)
+    setLaddarUpp(false)
+  }
 
   return (
     <article className="card">
@@ -61,6 +71,12 @@ function SpelCard({ spel, onEdit }) {
           <button type="button" className="btn" onClick={() => onEdit(spel)}>
             Redigera
           </button>
+          <ImageUpload
+            harBild={!!bild}
+            laddarUpp={laddarUpp}
+            onUpload={laddaUpp}
+            onError={onError}
+          />
         </div>
       </div>
     </article>
